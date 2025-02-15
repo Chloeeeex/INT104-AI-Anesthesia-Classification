@@ -31,7 +31,7 @@ jobs:
         env:
           RUN_LOCAL: true
         with:
-          linting_rules: 'python'  # 你可以在这里启用 Python Linter
+          linting_rules: 'python'
 
       - name: Lint Jupyter Notebooks
         run: |
