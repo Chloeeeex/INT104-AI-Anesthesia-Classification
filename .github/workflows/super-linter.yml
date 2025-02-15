@@ -1,16 +1,40 @@
-name: Super-Linter
+name: Lint Code Base
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths:
+      - '**/*.ipynb'
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.ipynb'
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v5
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install jupyter nbconvert
+
+      - name: Run Super Linter
+        uses: github/super-linter@v4
         env:
-          VALIDATE_PYTHON: true 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_LOCAL: true
+        with:
+          linting_rules: 'python'  # 你可以在这里启用 Python Linter
+
+      - name: Lint Jupyter Notebooks
+        run: |
+          for notebook in $(find . -name "*.ipynb"); do
+            jupyter nbconvert --to notebook --execute $notebook;
+          done
