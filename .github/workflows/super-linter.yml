@@ -1,21 +1,15 @@
-name: Lint Code Base
+name: Super Linter
 
-on:
-  pull_request:
-    paths:
-      - '**/*.ipynb'
-  push:
-    branches:
-      - main
-    paths:
-      - '**/*.ipynb'
+on: [push, pull_request]
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    name: Run Super Linter
+    runs-on: ubuntu-latest  
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3  
 
       - name: Set up Python environment
         uses: actions/setup-python@v2
@@ -27,11 +21,15 @@ jobs:
           pip install jupyter nbconvert
 
       - name: Run Super Linter
-        uses: github/super-linter@v4
+        uses: github/super-linter@v5
         env:
-          RUN_LOCAL: true
-          LINTER_RULES: 'python'
-
+          DEFAULT_BRANCH: main  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+          VALIDATE_PYTHON: true  
+          VALIDATE_SQL: true  
+          VALIDATE_MARKDOWN: true  
+          SQL_LINT_OPTIONS: "--ignore-rules=trailing-whitespace,unrecognized-statement"
+        
       - name: Lint Jupyter Notebooks
         run: |
           find . -name "*.ipynb" -print0 | while IFS= read -r -d '' notebook; do
