@@ -16,9 +16,10 @@ jobs:
         with:
           python-version: '3.x'
 
+      # Install all the dependencies
       - name: Install dependencies
         run: |
-          pip install jupyter nbconvert
+          pip install pandas numpy scikit-learn matplotlib scipy jupyter nbconvert  
 
       - name: Run Super Linter
         uses: github/super-linter@v5
