@@ -75,3 +75,5 @@ Implemented the following classifiers:
 - The **SVM classifier** achieved the best results, making it the preferred model for anesthesia recommendation.
 - **K-Means clustering** was attempted but was less effective due to the dataset structure.
 - Future improvements could involve **deep learning techniques** or **ensemble models** for better accuracy.
+
+*The overall architecture and core logic of this code were conceived by me, with AI assisting in optimization and partial implementation.*
